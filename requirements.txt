@@ -1,0 +1,2 @@
+behave==1.2.6  # Asegúrate de usar la última versión estable
+allure-behave==2.8.0  # Verifica la última versión disponible

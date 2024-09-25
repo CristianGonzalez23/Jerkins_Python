@@ -1,21 +1,46 @@
 pipeline {
     agent any
-
     stages {
         stage('Clonar Repositorio') {
             steps {
-                git 'https://github.com/CristianGonzalez23/Jerkins_Python.git'
+                git 'https://github.com/tu-usuario/tu-repositorio-de-pruebas.git'  // Cambia esta URL por la real
             }
         }
         stage('Instalar Dependencias') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                script {
+                    // Instalar dependencias
+                    sh 'pip3 install -r requirements.txt'
+                }
             }
         }
-        stage('Ejecutar Pruebas') {
+        stage('Ejecutar Pruebas con Allure') {
             steps {
-                sh 'behave'
+                script {
+                    // Ejecutar pruebas con Behave y generar reportes Allure
+                    sh 'behave -f allure_behave.formatter:AllureFormatter -o reports/'
+                }
             }
+        }
+        stage('Publicar Reportes Allure') {
+            steps {
+                allure([
+                    includeProperties: false,
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'reports/']]
+                ])
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/reports/*.json', allowEmptyArchive: true
+        }
+        success {
+            echo 'Las pruebas fueron exitosas.'
+        }
+        failure {
+            echo 'Las pruebas fallaron.'
         }
     }
 }
