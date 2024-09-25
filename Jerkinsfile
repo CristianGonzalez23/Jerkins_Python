@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clonar Repositorio') {
+            steps {
+                git 'https://github.com/CristianGonzalez23/Jerkins_Python.git'
+            }
+        }
+        stage('Instalar Dependencias') {
+            steps {
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+        stage('Ejecutar Pruebas') {
+            steps {
+                sh 'behave'
+            }
+        }
+    }
+}
