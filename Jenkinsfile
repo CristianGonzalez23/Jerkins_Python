@@ -18,10 +18,16 @@ pipeline {
                 sh 'behave -f allure_behave.formatter:AllureFormatter -o reports/'
             }
         }
+        stage('Generate Allure Report') {
+            steps {
+                sh 'allure generate reports/ -o allure-report'
+            }
+        }
     }
     post {
         always {
             archiveArtifacts artifacts: 'reports/**/*.json', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'allure-report/**', allowEmptyArchive: true
         }
         failure {
             mail to: 'you@example.com',
