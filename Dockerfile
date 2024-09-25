@@ -9,9 +9,10 @@ RUN apt-get update && \
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Instalar Behave dentro del entorno virtual
+# Instalar dependencias de Python
+COPY requirements.txt /tmp/
 RUN pip install --upgrade pip && \
-    pip install behave
+    pip install -r /tmp/requirements.txt
 
 # Cambiar de nuevo al usuario Jenkins
 USER jenkins

@@ -1,16 +1,19 @@
 pipeline {
     agent any
+    environment {
+        GIT_CREDENTIALS_ID = 'SHA256:70iZH7ffbCG7IWjsZeo1qipWI4AuJwJtBPHxjRVR/Bg'  // Reemplaza con el ID de las credenciales que creaste
+    }
     stages {
         stage('Clonar Repositorio') {
             steps {
-                git 'https://github.com/tu-usuario/tu-repositorio-de-pruebas.git'  // Cambia esta URL por la real
+                git branch: 'main', url: 'https://github.com/CristianGonzalez23/Jerkins_Python.git', credentialsId: env.GIT_CREDENTIALS_ID
             }
         }
         stage('Instalar Dependencias') {
             steps {
                 script {
                     // Instalar dependencias
-                    sh 'pip3 install -r requirements.txt'
+                    sh 'pip install -r requirements.txt'
                 }
             }
         }
