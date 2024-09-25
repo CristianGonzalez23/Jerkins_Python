@@ -1,9 +1,10 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/CristianGonzalez23/Jerkins_Python.git'
+                git branch: 'main', url: 'https://github.com/CristianGonzalez23/Jerkins_Python.git', credentialsId: 'your-credentials-id'
             }
         }
         stage('Install Dependencies') {
@@ -15,12 +16,6 @@ pipeline {
             steps {
                 sh 'behave'
             }
-        }
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
-            junit 'reports/**/*.xml'
         }
     }
 }
