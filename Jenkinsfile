@@ -18,16 +18,14 @@ pipeline {
                 sh 'behave -f allure_behave.formatter:AllureFormatter -o reports/'
             }
         }
+        stage('Generate Allure Report') {
+            steps {
+                sh 'allure generate reports/ -o allure-report'
+            }
+        }
     }
     post {
         always {
-            script {
-                try {
-                    sh 'allure generate reports/ -o allure-report'
-                } catch (Exception e) {
-                    echo 'Allure report generation failed'
-                }
-            }
             archiveArtifacts artifacts: 'reports/**/*.json', allowEmptyArchive: true
             archiveArtifacts artifacts: 'allure-report/**', allowEmptyArchive: true
         }
