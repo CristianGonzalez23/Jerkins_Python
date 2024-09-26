@@ -1,27 +1,17 @@
-# Usa la imagen base de Jenkins
-FROM jenkins/jenkins:lts
+# Dockerfile
+FROM python:3.9-slim
 
-# Cambia a usuario root para instalar dependencias
-USER root
+# Establecer el directorio de trabajo
+WORKDIR /app
 
-# Instala Python, pip, git y las dependencias para mysqlclient
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    git \
-    default-libmysqlclient-dev \
-    build-essential
+# Copiar los archivos de la aplicación
+COPY . /app
 
-# Crea un entorno virtual y activa
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+# Instalar las dependencias
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el archivo requirements.txt al contenedor
-COPY requirements.txt /app/requirements.txt
+# Exponer el puerto en el que correrá la aplicación
+EXPOSE 5000
 
-# Instala las dependencias desde requirements.txt
-RUN pip install -r /app/requirements.txt
-
-# Cambia de nuevo a usuario Jenkins
-USER jenkins
+# Comando para ejecutar la aplicación
+CMD ["python", "app.py"]

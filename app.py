@@ -13,9 +13,13 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import timedelta  # Importar timedelta correctamente
 from sqlalchemy.exc import IntegrityError
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)  # Permite todas las solicitudes desde cualquier origen
+
+
 
 # Configuración de JWT
 app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # Cambia esto por una clave más segura
@@ -237,5 +241,5 @@ def verify_and_delete_user_by_email():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Crea las tablas antes de ejecutar la aplicación
-    app.run(debug=True)
+        db.create_all()
+    app.run(host='0.0.0.0', port=5000)
