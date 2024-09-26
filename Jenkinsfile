@@ -9,7 +9,8 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                // Ejecutar el comando de instalación con permisos elevados
+                sh 'sudo pip install -r requirements.txt'
             }
         }
         stage('Start Server') {
