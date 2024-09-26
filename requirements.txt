@@ -5,3 +5,7 @@ Flask-JWT-Extended
 flask-swagger-ui
 pytest
 flask-cors
+allure-pytest
+behave
+requests
+werkzeug
