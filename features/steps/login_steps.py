@@ -39,7 +39,7 @@ def step_given_user_data_with_email(context, email, clave):
 # Paso para enviar la solicitud POST
 @when('I send a POST request to "{endpoint}" with user data')
 def step_when_send_post_request(context, endpoint):
-    url = f'http://localhost:5000{endpoint}'  # Asegúrate de que la URL sea correcta
+    url = f'http://192.168.1.108:5000{endpoint}'  # Asegúrate de que la URL sea correcta
     headers = {'Content-Type': 'application/json'}  # Incluimos los headers manualmente
     response = requests.post(url, json=context.user_data, headers=headers)  # Asegura el formato JSON
     context.response = response
