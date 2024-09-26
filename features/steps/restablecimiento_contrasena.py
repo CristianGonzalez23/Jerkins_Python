@@ -4,7 +4,7 @@ import allure
 import json
 from werkzeug.security import generate_password_hash
 
-API_URL = "http://localhost:5000"
+API_URL = "http://192.168.1.108:5000"
 
 @given('el correo "{email}" puede no existir en el sistema')
 def step_given_user_email_might_not_exist(context, email):

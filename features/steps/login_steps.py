@@ -18,7 +18,7 @@ def step_given_user_data(context, nombre, email, clave):
 
 @when('I check if the users exists and delete if necessary')
 def step_when_check_and_delete_user(context):
-    delete_url = f'http://localhost:5000/usuarios/verificar_y_eliminar'
+    delete_url = f'http://192.168.1.108:5000/usuarios/verificar_y_eliminar'
     response = requests.delete(delete_url, json={'email': context.user_data['email']})
 
     if response.status_code == 404:

@@ -13,7 +13,7 @@ def step_given_user_data(context, nombre, email, clave):
 
 @when('I check if the users exists and delete')
 def step_when_check_and_delete_user(context):
-    delete_url = f'http://localhost:5000/usuarios/verificar_y_eliminar'
+    delete_url = f'http://192.168.1.108:5000/usuarios/verificar_y_eliminar'
     response = requests.delete(delete_url, json={'email': context.user_data['email']})
 
     if response.status_code == 404:
@@ -26,7 +26,7 @@ def step_when_check_and_delete_user(context):
 # Paso para enviar la solicitud POST
 @when('I send a POST request to "{endpoint}" with user')
 def step_when_send_post_request(context, endpoint):
-    url = f'http://localhost:5000{endpoint}'  # Asegúrate de que la URL sea correcta
+    url = f'http://192.168.1.108:5000{endpoint}'  # Asegúrate de que la URL sea correcta
     headers = {'Content-Type': 'application/json'}  # Incluimos los headers manualmente
     response = requests.post(url, json=context.user_data, headers=headers)  # Asegura el formato JSON
     context.response = response
@@ -45,7 +45,7 @@ def step_given_user_logs_in_to_modify(context, email, clave):
         'email': email,
         'clave': clave
     }
-    response = requests.post('http://localhost:5000/auth/login', json=context.user_data)
+    response = requests.post('http://192.168.1.108:5000/auth/login', json=context.user_data)
     context.response = response
     if response.status_code != 200:
         print(f'Error al iniciar sesión: {response.status_code} - {response.text}')  # Línea de depuración
@@ -59,7 +59,7 @@ def step_when_user_modifies_information(context, new_name, new_email):
         'Authorization': f'Bearer {context.jwt_token}'
     }
     response = requests.put(
-        'http://localhost:5000/usuarios/actualizar',
+        'http://192.168.1.108:5000/usuarios/actualizar',
         json={"nombre": new_name, "email": new_email, "email": context.user_data['email']},
         headers=headers
     )

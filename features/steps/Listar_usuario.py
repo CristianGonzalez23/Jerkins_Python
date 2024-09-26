@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 import allure
 import json
 
-API_URL = "http://localhost:5000"
+API_URL = "http://192.168.1.108:5000"
 
 @given('el usuario "{email}" con la contraseña "{clave}" existe y ha iniciado sesión para listar usuarios')
 def step_given_user_exists_and_logs_in(context, email, clave):

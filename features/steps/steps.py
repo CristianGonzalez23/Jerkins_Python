@@ -15,7 +15,7 @@ def step_given_user_data(context, nombre, email, clave):
 
 @when('I check if the user exists and delete if necessary')
 def step_when_check_and_delete_user(context):
-    delete_url = f'http://localhost:5000/usuarios/verificar_y_eliminar'
+    delete_url = f'http://192.168.1.108:5000/usuarios/verificar_y_eliminar'
     response = requests.delete(delete_url, json={'email': context.user_data['email']})
 
     if response.status_code == 404:
@@ -27,7 +27,7 @@ def step_when_check_and_delete_user(context):
 
 @when('I send a POST request to "{endpoint}" with the user data')
 def step_when_send_post_request(context, endpoint):
-    url = f'http://localhost:5000{endpoint}'
+    url = f'http://192.168.1.108:5000{endpoint}'
     print(f'Sending request to {url} with data: {context.user_data}')  # Debugging line
     response = requests.post(url, json=context.user_data)
     print(f'Response status code: {response.status_code}')  # Debugging line
