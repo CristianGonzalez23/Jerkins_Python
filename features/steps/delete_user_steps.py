@@ -16,7 +16,7 @@ def step_given_user_data_for_creation(context, nombre, email, clave):
 
 @when('I check if the user exists and delete for creation')
 def step_when_check_and_delete_user_for_creation(context):
-    delete_url = f'http://192.168.1.108:5000/usuarios/verificar_y_eliminar'
+    delete_url = f'http://192.168.203.80:5000/usuarios/verificar_y_eliminar'
     response = requests.delete(delete_url, json={'email': context.user_data['email']})
 
     if response.status_code == 404:
@@ -29,7 +29,7 @@ def step_when_check_and_delete_user_for_creation(context):
 # Paso para enviar la solicitud POST
 @when('I send a POST request to "{endpoint}" with user for creation')
 def step_when_send_post_request_for_creation(context, endpoint):
-    url = f'http://192.168.1.108:5000{endpoint}'  # Asegúrate de que la URL sea correcta
+    url = f'http://192.168.203.80:5000{endpoint}'  # Asegúrate de que la URL sea correcta
     headers = {'Content-Type': 'application/json'}  # Incluimos los headers manualmente
     response = requests.post(url, json=context.user_data, headers=headers)  # Asegura el formato JSON
     context.response = response
@@ -47,7 +47,7 @@ def step_given_user_logs_in_to_delete(context, email, clave):
         'email': email,
         'clave': clave
     }
-    response = requests.post('http://192.168.1.108:5000/auth/login', json=context.user_data)
+    response = requests.post('http://192.168.203.80:5000/auth/login', json=context.user_data)
     context.response = response
     assert context.response.status_code == 200, 'Error al iniciar sesión'
     context.jwt_token = context.response.json()['token']  # Guardar el token
@@ -59,7 +59,7 @@ def step_when_user_deletes_account(context):
         'Authorization': f'Bearer {context.jwt_token}'
     }
     response = requests.delete(
-        'http://192.168.1.108:5000/usuarios/eliminar',
+        'http://192.168.203.80:5000/usuarios/eliminar',
         headers=headers,
         json={'email': context.user_data['email']}
     )
