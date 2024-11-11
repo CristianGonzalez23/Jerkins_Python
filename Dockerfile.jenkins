@@ -1,11 +1,38 @@
+# Dockerfile.jenkins
+
 # Usar la imagen base de Jenkins
 FROM jenkins/jenkins:lts
 
+# Cambiar al usuario root para instalar dependencias
 USER root
 
-# Instalar Python y pip
+# Instalar Python, pip y virtualenv
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-venv && \
+    apt-get install -y python3 python3-pip python3-venv curl unzip && \
     rm -rf /var/lib/apt/lists/*
 
+# Crear un entorno virtual
+RUN python3 -m venv /opt/venv
+
+# Copiar el archivo requirements.txt al contenedor
+COPY requirements.txt /app/requirements.txt
+
+# Instalar las dependencias desde requirements.txt en el entorno virtual
+RUN /opt/venv/bin/pip install -r /app/requirements.txt
+
+# Instalar allure-behave en el entorno virtual
+RUN /opt/venv/bin/pip install allure-behave
+
+# Descargar y descomprimir Allure
+RUN curl -o allure-commandline.zip -L https://github.com/allure-framework/allure2/releases/download/2.13.8/allure-2.13.8.zip \
+    && unzip allure-commandline.zip -d /opt/ \
+    && rm allure-commandline.zip
+
+# Agregar Allure al PATH
+ENV PATH="/opt/allure-2.13.8/bin:${PATH}"
+
+# Cambiar los permisos del directorio de Jenkins
+RUN chown -R jenkins:jenkins /var/jenkins_home && chmod -R 775 /var/jenkins_home
+
+# Cambiar de nuevo al usuario Jenkins
 USER jenkins

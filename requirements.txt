@@ -9,3 +9,13 @@ allure-pytest
 behave
 requests
 werkzeug
+faker
+jsonschema
+pika
+logstash-formatter
+gunicorn
+flask-migrate
+flask-script
+flask-cors
+allure-python-commons==2.13.5
+behave==1.2.6
